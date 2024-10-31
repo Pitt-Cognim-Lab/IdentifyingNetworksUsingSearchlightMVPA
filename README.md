@@ -16,7 +16,7 @@ This repo contains the final code for the project "Identifying networks within a
    **individual_results** - This is the binary vector of the accuracies for each searchlight.
    **mean_searchlight_accuracies** - This file saves the mean accuracies for each searchlight. I use this to save it to afni and get significant accuracies.
    **individual_labels** - This a vector of the predicted labels for each of the time points.
-   // side note: I didnt save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)
+   [//]: side note: I didnt save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)
    
 4. Getting the significant accuracies from the above classification
    After this I used the mean_searchlight_accuracies_WB+tlrc for each subject and ran t-test to get significant accuracies. The mean searchlight accuracies were basically the mean of accuracies for each fold for the searchlight centered at that particular voxel. 
@@ -50,7 +50,7 @@ This repo contains the final code for the project "Identifying networks within a
    - I get the components from here and save them as csv files. The I use [general_write2afni](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/general_write2afni.m) script to save these components in afni (PS: I make changes in it according to the requirement, so double check before running).
       
    - After that to make sense of the components I calculated the confusion matrices for each component using this [code](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Component_cluster_confusion_matrix.m). Here are the results for that. There are 7 components right now.
-     // The components are present on the server at "smb://data.lrdcfile.pitt.edu/project/Coutanche/Shared/Projects/Searchlight/Component_maps/"
+     [//]: The components are present on the server at "smb://data.lrdcfile.pitt.edu/project/Coutanche/Shared/Projects/Searchlight/Component_maps/"
 
 
 -----------------------------------------updated till here-------------------------------------------------------------------
