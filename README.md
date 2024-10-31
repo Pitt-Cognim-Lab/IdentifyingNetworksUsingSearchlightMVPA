@@ -33,9 +33,9 @@ This repo contains the final code for the project "Identifying networks within a
    Then ran the get_significant_accuracies script to get the voxels of significant accuracies and then run the ICA on them.
 
    t-test result: without cluster correction:
-   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_axial-without_bg.png" width="50%" height="50%">
-   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_coronal-without_bg.png" width="50%" height="50%">
-   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_sag-without_bg.png" width="50%" height="50%">
+   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_axial-without_bg.png" width="30%" height="30%">
+   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_coronal-without_bg.png" width="30%" height="30%">
+   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_sag-without_bg.png" width="30%" height="30%">
 
 ## Part 2: Secondary Analysis
 
