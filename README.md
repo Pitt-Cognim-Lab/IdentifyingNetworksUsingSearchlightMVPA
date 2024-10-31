@@ -6,18 +6,19 @@ This repo contains the final code for the project "Identifying networks within a
 
 1. Warpping the functioncal data to the standard space
    Template used: MNI152_T1_2009c+tlrc
-   Here is the link to the bash script used for warpping the images: https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/subjects_data/Functional_data/wrapping_images.sh
+   Here is the link to the bash script used for warpping the images: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/wrapping_images.sh
    First, warped the anatomical image of each subject to the standard image. This will give us the transformation matrix. The warped functional images to the anatomical images. After that used the transformation matrices to warp the functional images to the standard space.
      
 2. Running the searchlight classification on these standardized images
-   Here is the code for the searchlight classification: https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/searchlight_classification.m
+   Here is the code for the searchlight classification: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/searchlight_classification.m
    In this script I am reading the standardized images of all the subjects and running a 4-fold 4-way searchlight classification. This script takes about a day to run, since searchlight classification for each subject takes about an hour. I am filling in the labels between the trs where one label was showed. There was an instance where the voxels in few of the searchglights was empty. There is a piece of code before the classification to find remove those voxels.
-   I am saving out the mean accuracies (across the folds) of each searchlight. I am also saving the whole workspace after running the searchlight. There are few variables of interest in this saved workspace. Here are few variables that I used most frequently.
+   I am saving out the mean accuracies (across the folds) and predicted labels of each searchlight. I am also saving the whole workspace after running the searchlight. There are few variables of interest in this saved workspace. Here are few variables that I used most frequently.
    **individual_results** - This is the binary vector of the accuracies for each searchlight.
    **mean_searchlight_accuracies** - This file saves the mean accuracies for each searchlight. I use this to save it to afni and get significant accuracies.
-   **individual_labels** - This a vector of the predicted labels for each of the time points. side note: I didnt save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)
+   **individual_labels** - This a vector of the predicted labels for each of the time points.
+   // side note: I didnt save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)
    
-3. Getting the significant accuracies from the above classification
+4. Getting the significant accuracies from the above classification
    After this I used the mean_searchlight_accuracies_WB+tlrc for each subject and ran t-test to get significant accuracies. The mean searchlight accuracies were basically the mean of accuracies for each fold for the searchlight centered at that particular voxel. 
 
    The ttest command that I ran:
@@ -31,12 +32,14 @@ This repo contains the final code for the project "Identifying networks within a
    Then ran the get_significant_accuracies script to get the voxels of significant accuracies and then run the ICA on them.
 
    t-test result: without cluster correction:
-   <img src="https://github.com/Pitt-Cognim-Lab/Lab_Notebooks/blob/main/To_add_image/Searchlight/ttest_result.png" width="80%" height="80%">
+   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_axial-without_bg.png" width="50%" height="50%">
+   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_coronal-without_bg.png" width="50%" height="50%">
+   <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_sag-without_bg.png" width="50%" height="50%">
 
 ## Part 2: Secondary Analysis
 
 ### 1. ICA
-   After getting the searchlights that were significant I put them through ICA classification. Here is the link to the python script for [ICA](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/ICA.ipynb). In this script I read each subjects significant searchlight accuracies and run ICA on it. Details are as follows:
+   After getting the searchlights that were significant I put them through ICA classification. Here is the link to the python script for [ICA](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/ICA.ipynb). In this script I read each subjects significant searchlight accuracies and run ICA on it. Details are as follows:
 
    - I standardize the data where it makes the mean zero and variance 1. I dont think it changes the covariance of the column. 
       
@@ -44,9 +47,13 @@ This repo contains the final code for the project "Identifying networks within a
       
    - After getting the components I threshold the values to get which voxels were significant part of the component. I did that by getting the mean and standard deviation. The voxels that were included had value that were 3 standard deviation far from mean. [ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5594474/]
       
-   - I get the components from here and save them as csv files. The I use [general_write2afni](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/general_write2afni.m) script to save these components in afni (PS: I make changes in it according to the requirement, so double check before running).
+   - I get the components from here and save them as csv files. The I use [general_write2afni](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/general_write2afni.m) script to save these components in afni (PS: I make changes in it according to the requirement, so double check before running).
       
-   - After that to make sense of the components I calculated the confusion matrices for each component using this [code](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/Component_cluster_confusion_matrix.m). Here are the results for that. There are 7 components right now. The components are present on the server at "smb://data.lrdcfile.pitt.edu/project/Coutanche/Shared/Projects/Searchlight/Component_maps/"
+   - After that to make sense of the components I calculated the confusion matrices for each component using this [code](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Component_cluster_confusion_matrix.m). Here are the results for that. There are 7 components right now.
+     // The components are present on the server at "smb://data.lrdcfile.pitt.edu/project/Coutanche/Shared/Projects/Searchlight/Component_maps/"
+
+
+-----------------------------------------updated till here-------------------------------------------------------------------
 
 
 Confusion Matrices for all the clusters in each component:
