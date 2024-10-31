@@ -16,7 +16,8 @@ This repo contains the final code for the project "Identifying networks within a
    **individual_results** - This is the binary vector of the accuracies for each searchlight.
    **mean_searchlight_accuracies** - This file saves the mean accuracies for each searchlight. I use this to save it to afni and get significant accuracies.
    **individual_labels** - This a vector of the predicted labels for each of the time points.
-   [//]: side note: I didnt save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)
+
+   [//]: # side note: I didnt save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)
    
 4. Getting the significant accuracies from the above classification
    After this I used the mean_searchlight_accuracies_WB+tlrc for each subject and ran t-test to get significant accuracies. The mean searchlight accuracies were basically the mean of accuracies for each fold for the searchlight centered at that particular voxel. 
