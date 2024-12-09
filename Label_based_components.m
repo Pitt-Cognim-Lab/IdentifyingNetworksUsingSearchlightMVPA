@@ -6,10 +6,7 @@ subject_dirs=["s103","s105","s107","s108","s109","s110","s112","s113","s114","s1
 % Stay in the main directory
 % % first have to read in each component as a mask
 % This will tell which searchlight belongs to which component
-% comps=readmatrix("../../Components_map_concatenated_7c.csv"); 
-% comps=readmatrix("Components_map_7c_2std.csv"); % this will have 7 columns
-% comps = readmatrix("Components_map_7c_2std.csv");
-comps=readmatrix("Univariate_masks/Components_map_face_8c_1_2std.csv");
+comps=readmatrix("Components_map_7c_2std.csv"); % this will have 7 columns
 
 % Getting the mask for flags;
 subj_mask = init_subj('Flags','ttest_mask');
@@ -29,13 +26,6 @@ for i=1:length(flag_mat)
     end
 end
 
-% Sense check
-for c=1:7
-    if ~(length(find(spatial_map(:,1)))==length(find(comps(:,1))))
-        disp("The number of voxels in comps and spatial map are not matching for component")
-        disp(c)
-    end
-end
 
 cd 'subjects_data/Functional_data/'
 average_subj_accuracies=zeros(length(flag_mat),4); % this 4 is for 4 labels. 
