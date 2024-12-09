@@ -4,14 +4,14 @@ This repo contains the final code for the project "Identifying networks within a
 
 ## Part 1: Searchlight classification.
 
-1. Warpping the functioncal data to the standard space
+1. Warping the functioncal data to the standard space
    Template used: MNI152_T1_2009c+tlrc
    Here is the link to the bash script used for warpping the images: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/wrapping_images.sh
    First, warped the anatomical image of each subject to the standard image. This will give us the transformation matrix. The warped functional images to the anatomical images. After that used the transformation matrices to warp the functional images to the standard space.
      
 2. Running the searchlight classification on these standardized images
    Here is the code for the searchlight classification: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/searchlight_classification.m
-   In this script I am reading the standardized images of all the subjects and running a 4-fold 4-way searchlight classification. This script takes about a day to run, since searchlight classification for each subject takes about an hour. I am filling in the labels between the trs where one label was showed. There was an instance where the voxels in few of the searchglights was empty. There is a piece of code before the classification to find remove those voxels.
+   In this script, Read the standardized images of all the subjects and running a 4-fold 4-way searchlight classification. This script takes about a day to run, since searchlight classification for each subject takes about an hour. Filling in the labels where the label of the TR before and after was the same label. 
    I am saving out the mean accuracies (across the folds) and predicted labels of each searchlight. I am also saving the whole workspace after running the searchlight. There are few variables of interest in this saved workspace. Here are few variables that I used most frequently.
    **individual_results** - This is the binary vector of the accuracies for each searchlight.
    **mean_searchlight_accuracies** - This file saves the mean accuracies for each searchlight. I use this to save it to afni and get significant accuracies.
@@ -26,34 +26,34 @@ This repo contains the final code for the project "Identifying networks within a
 
    3dttest++ -prefix ttest.results/ttest_results -mask ../Functional_data/Whole_brain_mask_stan_re+tlrc -singletonA 0.25 -setB group_analysis 01 mean_searchlight_results_WBs103+tlrc 02 mean_searchlight_results_WBs105+tlrc 03 mean_searchlight_results_WBs107+tlrc 04 mean_searchlight_results_WBs108+tlrc 05 mean_searchlight_results_WBs109+tlrc 06 mean_searchlight_results_WBs110+tlrc 07 mean_searchlight_results_WBs112+tlrc 08 mean_searchlight_results_WBs113+tlrc 09 mean_searchlight_results_WBs114+tlrc 10 mean_searchlight_results_WBs115+tlrc 11 mean_searchlight_results_WBs116+tlrc 12 mean_searchlight_results_WBs117+tlrc 13 mean_searchlight_results_WBs118+tlrc 14 mean_searchlight_results_WBs119+tlrc 15 mean_searchlight_results_WBs120+tlrc 16 mean_searchlight_results_WBs121+tlrc 17 mean_searchlight_results_WBs122+tlrc 18 mean_searchlight_results_WBs123+tlrc 19 mean_searchlight_results_WBs126+tlrc 20 mean_searchlight_results_WBs128+tlrc
    
-   To get the mask for p<0.05 threshold. I ran 3dcalc (2.0930 was the threshold value of the voxel with p<0.05, I think it was a t-value map.) 
+   To get the mask for p<0.05 threshold. I ran 3dcalc (2.0930 was the threshold value of the voxel with p<0.05.) 
 
    3dcalc -a 'ttest_results+tlrc[1]' -expr 'or(isnegative(a+2.0930) ,ispositive(a-2.0930) )' -prefix thr05_mask
 
-   Then ran the get_significant_accuracies script to get the voxels of significant accuracies and then run the ICA on them.
-
+   Then ran the get_significant_accuracies script to get the voxels of significant accuracies.
+<!---
    t-test result: without cluster correction: <br>
    <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_axial-without_bg.png" width="25%">
    <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_coronal-without_bg.png" width="30%">
    <img src="https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Images/ttest_sag-without_bg.png" width="30%">
-
+--->
 ## Part 2: Secondary Analysis
 
 ### 1. ICA
    After getting the searchlights that were significant I put them through ICA classification. Here is the link to the python script for [ICA](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/ICA.ipynb). In this script I read each subjects significant searchlight accuracies and run ICA on it. Details are as follows:
 
-   - I standardize the data where it makes the mean zero and variance 1. I dont think it changes the covariance of the column. 
+   - Standardized the data to have mean zero and variance 1.
       
-   - I run PCA to just get the number of components, but not as a data reduction step. I look at the point where the variance of the data stops changing significantly. It looks like after 7 components it reduces very less. The total variance of the top 7 components is less than 20%. It saves a lot less variance in the data. 
+   - Ran PCA to just get the number of components, but not as a data reduction step. Looked at the elbow of the variance plot, which gives us 7 components. The total variance of the top 7 components is less than 20%. It saves a lot less variance in the data. 
       
-   - After getting the components I threshold the values to get which voxels were significant part of the component. I did that by getting the mean and standard deviation. The voxels that were included had value that were 3 standard deviation far from mean. [ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5594474/]
+   - After getting the components, thresholded the values to get which voxels were significant part of the component. I did that by getting the mean and standard deviation. The voxels that were included had value that were 3 standard deviation far from mean. [ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5594474/]
       
-   - I get the components from here and save them as csv files. The I use [general_write2afni](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/general_write2afni.m) script to save these components in afni (PS: I make changes in it according to the requirement, so double check before running).
+   - Got the components from here and save them as csv files. Used [general_write2afni](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/general_write2afni.m) script to save these components in afni.
       
-   - After that to make sense of the components I calculated the confusion matrices for each component using this [code](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Component_cluster_confusion_matrix.m). Here are the results for that. There are 7 components right now.
+   - Calculated the confusion matrices for each component using this [code](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Component_cluster_confusion_matrix.m).
      <!--The components are present on the server at "smb://data.lrdcfile.pitt.edu/project/Coutanche/Shared/Projects/Searchlight/Component_maps/"-->
 
-
+<!---
 -----------------------------------------updated till here-------------------------------------------------------------------
 
 
@@ -300,3 +300,4 @@ Paper that talks about how to threshold the components : https://www.ncbi.nlm.ni
 Few resources talking about the negative weights of the ICA components:
    - https://www.brainvoyager.com/ubb/Forum4/HTML/000613.html
    - https://www.researchgate.net/post/What_does_negativity_mean_in_the_unmixed_components_in_Independent_Component_Analysis_ICA
+--->
