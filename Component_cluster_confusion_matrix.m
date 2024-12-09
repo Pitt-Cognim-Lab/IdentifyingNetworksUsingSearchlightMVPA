@@ -28,13 +28,6 @@ for s=1:length(subject_dirs)
         % y-axis - predicted labels & z-axis - true labels
     end
     sum_confusion_matrices=sum_confusion_matrices+confusionMatrices;
-    % For each searchlight I will get the confusion matrix and then add it
-    % all up for the whole cluster.
-    % for l=1:4
-    %     lab_inds=find(labels==l);
-    %     predLabs=predictedLabs(:,lab_inds);
-    %     % average_subject(:,(l-1)*40+1:l*40)=(average_subject(:,(l-1)*40+1:l*40)*(s-1)+results_sub)/s; % accuracy score
-    % end
     cd ../
 end
 avg_confusion_matrices=sum_confusion_matrices/20;
@@ -47,9 +40,7 @@ clear subj_mask;
 % Getting the mask for flags;
 subj_mask = init_subj('Components','comp_mask');
 subj_mask=load_afni_mask(subj_mask,'roi_mask','Whole_brain_mask_stan_re+tlrc');
-% cd ../../Component_maps/Individual_voxelValue_components/
 cd ../../Component_maps/Comps_masks_2std %% This will give the confusion matrix for the 2 std ICA components
-% cd ../../Univariate_masks/facevsall/comps_mask/ %% Masks for facevsall components
 num_comps=7;
 for c=1:num_comps
     cname=sprintf('comp%d_2std_mask+tlrc',c); %% Have to change the name here as well.
