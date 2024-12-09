@@ -6,7 +6,7 @@ This repo contains the final code for the project "Identifying networks within a
 
 1. Warping the functioncal data to the standard space
    Template used: MNI152_T1_2009c+tlrc
-   Here is the link to the bash script used for warpping the images: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/wrapping_images.sh
+   Here is the link to the bash script used for warpping the images: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/warpping_images.sh
    First, warped the anatomical image of each subject to the standard image. This will give us the transformation matrix. The warped functional images to the anatomical images. After that used the transformation matrices to warp the functional images to the standard space.
      
 2. Running the searchlight classification on these standardized images
