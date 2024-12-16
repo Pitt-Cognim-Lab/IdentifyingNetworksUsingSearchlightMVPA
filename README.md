@@ -27,11 +27,11 @@ This repo contains the final code for the project "Identifying networks within a
 
    The ttest command to get the significant searchlights:
 
-   3dttest++ -prefix ttest.results/ttest_results -mask ../Functional_data/Whole_brain_mask_stan_re+tlrc -singletonA 0.25 -setB group_analysis 01 mean_searchlight_results_WBs103+tlrc 02 mean_searchlight_results_WBs105+tlrc 03 mean_searchlight_results_WBs107+tlrc 04 mean_searchlight_results_WBs108+tlrc 05 mean_searchlight_results_WBs109+tlrc 06 mean_searchlight_results_WBs110+tlrc 07 mean_searchlight_results_WBs112+tlrc 08 mean_searchlight_results_WBs113+tlrc 09 mean_searchlight_results_WBs114+tlrc 10 mean_searchlight_results_WBs115+tlrc 11 mean_searchlight_results_WBs116+tlrc 12 mean_searchlight_results_WBs117+tlrc 13 mean_searchlight_results_WBs118+tlrc 14 mean_searchlight_results_WBs119+tlrc 15 mean_searchlight_results_WBs120+tlrc 16 mean_searchlight_results_WBs121+tlrc 17 mean_searchlight_results_WBs122+tlrc 18 mean_searchlight_results_WBs123+tlrc 19 mean_searchlight_results_WBs126+tlrc 20 mean_searchlight_results_WBs128+tlrc
+   `3dttest++ -prefix ttest.results/ttest_results -mask ../Functional_data/Whole_brain_mask_stan_re+tlrc -singletonA 0.25 -setB group_analysis 01 mean_searchlight_results_WBs103+tlrc 02 mean_searchlight_results_WBs105+tlrc 03 mean_searchlight_results_WBs107+tlrc 04 mean_searchlight_results_WBs108+tlrc 05 mean_searchlight_results_WBs109+tlrc 06 mean_searchlight_results_WBs110+tlrc 07 mean_searchlight_results_WBs112+tlrc 08 mean_searchlight_results_WBs113+tlrc 09 mean_searchlight_results_WBs114+tlrc 10 mean_searchlight_results_WBs115+tlrc 11 mean_searchlight_results_WBs116+tlrc 12 mean_searchlight_results_WBs117+tlrc 13 mean_searchlight_results_WBs118+tlrc 14 mean_searchlight_results_WBs119+tlrc 15 mean_searchlight_results_WBs120+tlrc 16 mean_searchlight_results_WBs121+tlrc 17 mean_searchlight_results_WBs122+tlrc 18 mean_searchlight_results_WBs123+tlrc 19 mean_searchlight_results_WBs126+tlrc 20 mean_searchlight_results_WBs128+tlrc`
    
    Get the mask for p<0.05 threshold using 3dcalc at threshold of 2.0930 (the threshold value of the voxel with p<0.05) 
 
-   3dcalc -a 'ttest_results+tlrc[1]' -expr 'or(isnegative(a+2.0930) ,ispositive(a-2.0930) )' -prefix thr05_mask
+   `3dcalc -a 'ttest_results+tlrc[1]' -expr 'or(isnegative(a+2.0930) ,ispositive(a-2.0930) )' -prefix thr05_mask`
 
    Ran the get_significant_accuracies script to get the voxels of significant accuracies.
 
