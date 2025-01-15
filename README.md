@@ -25,6 +25,7 @@ This repo contains the final code for the project "Identifying networks within a
 3. Getting the significant accuracies from the above classification
    Used the mean_searchlight_accuracies_WB+tlrc for each subject and ran t-test to get significant accuracies. The mean searchlight accuracies are the mean of accuracies for each fold for the searchlight centered at that particular voxel. 
 
+<!---
    The ttest command to get the significant searchlights:
 
    `3dttest++ -prefix ttest.results/ttest_results -mask ../Functional_data/Whole_brain_mask_stan_re+tlrc -singletonA 0.25 -setB group_analysis 01 mean_searchlight_results_WBs103+tlrc 02 mean_searchlight_results_WBs105+tlrc 03 mean_searchlight_results_WBs107+tlrc 04 mean_searchlight_results_WBs108+tlrc 05 mean_searchlight_results_WBs109+tlrc 06 mean_searchlight_results_WBs110+tlrc 07 mean_searchlight_results_WBs112+tlrc 08 mean_searchlight_results_WBs113+tlrc 09 mean_searchlight_results_WBs114+tlrc 10 mean_searchlight_results_WBs115+tlrc 11 mean_searchlight_results_WBs116+tlrc 12 mean_searchlight_results_WBs117+tlrc 13 mean_searchlight_results_WBs118+tlrc 14 mean_searchlight_results_WBs119+tlrc 15 mean_searchlight_results_WBs120+tlrc 16 mean_searchlight_results_WBs121+tlrc 17 mean_searchlight_results_WBs122+tlrc 18 mean_searchlight_results_WBs123+tlrc 19 mean_searchlight_results_WBs126+tlrc 20 mean_searchlight_results_WBs128+tlrc`
@@ -34,7 +35,7 @@ This repo contains the final code for the project "Identifying networks within a
    `3dcalc -a 'ttest_results+tlrc[1]' -expr 'or(isnegative(a+2.0930) ,ispositive(a-2.0930) )' -prefix thr05_mask`
 
    Ran the get_significant_accuracies script to get the voxels of significant accuracies.
-
+--->
 P.S.: Used princeton mvpa toolbox for this searchlight analysis. It can be found here: https://github.com/PrincetonUniversity/princeton-mvpa-toolbox
 <!---
    t-test result: without cluster correction: <br>
@@ -46,7 +47,7 @@ P.S.: Used princeton mvpa toolbox for this searchlight analysis. It can be found
 
 ### 1. ICA
    
-   a) The accuracy vectors derived from the last step of Part 1 were used in the python script for [ICA](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/ICA.ipynb). In this script, read each subject's significant searchlight accuracies and ran ICA on the group data. Details are as follows:
+   a) The accuracy vectors derived from the last step of Part 1 were used in the python script for [ICA](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/ICA.ipynb). Read each subject's significant searchlight accuracies and ran ICA on the group data. Details are as follows:
 
    - Standardized the data to have mean zero and variance 1.
       
