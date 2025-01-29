@@ -4,23 +4,23 @@ This repo contains the final code for the project "Identifying networks within a
 
 ## Part 1: Searchlight classification.
 
-1. Warping the functioncal data to the standard space
+1. Warping the functional data to the standard space
    Template used: MNI152_T1_2009c+tlrc
-   Here is the link to the bash script used for warpping the images: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/warpping_images.sh
+   Here is the link to the bash script used for warping the images: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/warpping_images.sh
    a) Warped the anatomical image of each subject to the standard image to derive the transformation matrix.
    b) Warped functional images to the anatomical images.
-   c) Used the transformation matrices to warp the functional images to the standard space.
+   c) The transformation matrices were used to warp the functional images to the standard space.
      
 2. Running the searchlight classification on these standardized images
    Code for the searchlight classification: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/searchlight_classification.m
-   In this script, Read the standardized images of all the subjects and running a 4-fold 4-way searchlight classification. Filling in the labels where the label of the TR before and after was the same label. 
-   Saving the mean accuracies (across the folds), predicted labels of each searchlight and the whole workspace after running the searchlight. There are a few variables of interest in this saved workspace. Variables used most frequently.
+   In this script, Read the standardized images of all the subjects and ran a 4-fold 4-way searchlight classification. Filled in the labels where the label of the TR before and after was the same. 
+   Saving the mean accuracies (across the folds), predicted labels of each searchlight, and the whole workspace after running the searchlight. There are a few variables of interest in this saved workspace. Variables used most frequently.
    **individual_results** - This is the binary vector of the accuracies for each searchlight.
-   **mean_searchlight_accuracies** - This file saves the mean accuracies for each searchlight. I use this to save it to afni and get significant accuracies.
-   **individual_labels** - This a vector of the predicted labels for each of the time points.
+   **mean_searchlight_accuracies** - This file saves the mean accuracies for each searchlight. Used this to save it to afni and get significant accuracies.
+   **individual_labels** - This is a vector of the predicted labels for each of the time points.
 
-   N.B.: searchlight_classification.m script takes about a day to run, since searchlight classification for each subject takes about an hour.
-   <!---side note: I didnt save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)--->
+   N.B.: searchlight_classification.m script takes about a day to run since searchlight classification for each subject takes about an hour.
+   <!---side note: I didn't save them before and wrote another script to get them which is [here](https://github.com/Pitt-Cognim-Lab/Searchlight/blob/main/GetPredictedLabels.m)--->
    
 3. Getting the significant accuracies from the above classification
    Used the mean_searchlight_accuracies_WB+tlrc for each subject and ran t-test to get significant accuracies. The mean searchlight accuracies are the mean of accuracies for each fold for the searchlight centered at that particular voxel. 
@@ -53,7 +53,7 @@ P.S.: Used princeton mvpa toolbox for this searchlight analysis. It can be found
       
    - Ran PCA to just get the number of components, but not as a data reduction step. Looked at the elbow of the variance plot, which gives us 7 components. The total variance of the top 7 components is less than 20%. It saves a lot less variance in the data. 
       
-   - After getting the components, thresholded the values to get which voxels were significant part of the component. I did that by getting the mean and standard deviation. The voxels that were included had value that were 3 standard deviation far from mean. [ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5594474/]
+   - After getting the components, thresholded the values to get which voxels were a significant part of the component. I did that by getting the mean and standard deviation. The voxels that were included had values that were 3 standard deviation far from mean. [ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5594474/]
       
    - This gave us the components and saved them as csv files. Used [general_write2afni](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/general_write2afni.m) script to save these components in afni.
       
