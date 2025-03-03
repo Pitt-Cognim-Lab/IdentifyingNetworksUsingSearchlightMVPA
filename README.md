@@ -9,7 +9,7 @@ This repo contains the final code for the project "Identifying networks within a
    Here is the link to the bash script used for warping the images: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/warpping_images.sh
    a) Warped the anatomical image of each subject to the standard image to derive the transformation matrix.
    b) Warped functional images to the anatomical images.
-   c) The transformation matrices were used to warp the functional images to the standard space.
+   c) Used the transformation matrices to warp the functional images to the standard space.
      
 2. Running the searchlight classification on these standardized images
    Code for the searchlight classification: https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/searchlight_classification.m
@@ -51,11 +51,11 @@ P.S.: Used princeton mvpa toolbox for this searchlight analysis. It can be found
 
    - Standardized the data to have mean zero and variance 1.
       
-   - Ran PCA to just get the number of components, but not as a data reduction step. Looked at the elbow of the variance plot, which gives us 7 components. The total variance of the top 7 components is less than 20%. It saves a lot less variance in the data. 
+   - Ran PCA to just get the number of components, but not as a data reduction step. Looked at the elbow of the variance plot, which gives us 7 components.  
       
-   - After getting the components, thresholded the values to get which voxels were a significant part of the component. I did that by getting the mean and standard deviation. The voxels that were included had values that were 3 standard deviation far from mean. [ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5594474/]
+   - After getting the components, thresholded the values to get which voxels were a significant part of the component. Thresholding was done by calculating the mean and standard deviation. The voxels that were included had values that were 3 standard deviations far from mean. [ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5594474/]
       
-   - This gave us the components and saved them as csv files. Used [general_write2afni](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/general_write2afni.m) script to save these components in afni.
+   - The voxels crossing the above threshold were part of the component and then saved all the components as csv files. Used [general_write2afni](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/general_write2afni.m) script to save these components in afni.
       
    - Calculated the confusion matrices for each component using this [code](https://github.com/Pitt-Cognim-Lab/IdentifyingNetworksUsingSearchlightMVPA/blob/main/Component_cluster_confusion_matrix.m).
      <!--The components are present on the server at "smb://data.lrdcfile.pitt.edu/project/Coutanche/Shared/Projects/Searchlight/Component_maps/"-->
